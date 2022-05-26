@@ -4,11 +4,14 @@ from sklearn.decomposition import NMF as NMFlib
 seed=0
 np.random.seed(seed)
 
+def CosteFrobenius(V_,W_,H_):
+    return np.linalg.norm(V_ - np.matmul(W_,H_) )
+
 def NMF_sk(V_,k_):
     model = NMFlib(n_components=k_, init='random', random_state=seed)
     W = model.fit_transform(V_)
     H = model.components_
-    f = np.linalg.norm(V_ - np.matmul(W,H) )
+    f = CosteFrobenius(V_,W,H)
     return W, H, f
 
 def NMF(V_,k_,tol_,steps_W=1,print_=False):
@@ -17,7 +20,7 @@ def NMF(V_,k_,tol_,steps_W=1,print_=False):
     #H = np.ones([k,V.shape[1]])
     W = np.random.rand(V_.shape[0],k_)
     H = np.random.rand(k_,V_.shape[1])
-    f = np.linalg.norm(V_ - np.matmul(W,H) )
+    f = CosteFrobenius(V_,W,H)
 
     if print_:
         print("V:\n", V_, V_.shape)
@@ -31,7 +34,7 @@ def NMF(V_,k_,tol_,steps_W=1,print_=False):
         for i in range(0,steps_W) :
             W = W * ( np.matmul( V_ , np.transpose(H) ) / np.matmul(W,np.matmul(H,np.transpose(H))) )
         H = H * ( np.matmul( np.transpose(W) , V_ ) / np.matmul( np.matmul(np.transpose(W),W) , H) )
-        f = np.linalg.norm(V_ - np.matmul(W,H) )
+        f = CosteFrobenius(V_,W,H)
         if print_:
             print("|V-WH|:", f)
 
