@@ -13,7 +13,6 @@ vect = TfidfVectorizer(min_df=50, stop_words='english')
 # luego estandariza (centrado y escalado)
 V = vect.fit_transform(documents.headline_text)
 
-
 # Create an NMF instance: model
 # the 10 components will be the topics
 # random_state para reproducibilidad
@@ -30,6 +29,7 @@ W = model.transform(V)
 # Get matrix H
 H = model.components_
 
+print(V[0:1])
 print(V[0:10])
 print("V dimensiones:", V.shape, "\n")
 print(W[0:3])
