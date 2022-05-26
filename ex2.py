@@ -14,7 +14,7 @@ V = np.array([
 W_sk, H_sk, f_sk = nmf.NMF_sk(V,k)
 
 tol=f_sk
-W, H, f = nmf.NMF(V,k,tol,True)
+W, H, f = nmf.NMF(V,k,tol, steps_W=5, print_=True)
 
 print("V:\n", V, V.shape)
 print("W_sk:\n", W_sk, W_sk.shape)
